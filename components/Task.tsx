@@ -1,6 +1,7 @@
 "use client";
 import { Task } from "@/types/Task";
 import { Dialog, Transition } from "@headlessui/react";
+import { Field, Formik } from "formik";
 import { Dispatch, Fragment, SetStateAction, useState } from "react";
 
 export default function TaskCard({ task }: { task: Task }) {
@@ -60,13 +61,54 @@ function EditModal({ task, isOpen, closeModal }: { task: Task, isOpen: boolean, 
 
 
 
-                                <p className="h-[500px]">Form here</p>
+                                <Formik
+                                    initialValues={task}
+                                    validate={values => {
+                                        const errors = {};
+                                        //TODO: Implement validation
+                                    }}
+                                    onSubmit={(values, { setSubmitting }) => {
+                                        setTimeout(() => {
+                                            alert(JSON.stringify(values, null, 2));
+                                            setSubmitting(false);
+                                        }, 400);
+                                    }}
+                                >
+                                    {({
+                                        values,
+                                        errors,
+                                        touched,
+                                        handleChange,
+                                        handleBlur,
+                                        handleSubmit,
+                                        isSubmitting,
+                                    }) => (
+                                        <form className="flex flex-col min-h-[350px] justify-between" onSubmit={handleSubmit}>
+                                            <div className="flex flex-col">
 
+                                                <div className="flex flex-col mt-4">
+                                                    <p className="font-medium">Title</p>
+                                                    <input className="p-1 bg-gray-100 mt-2 rounded-sm" type="text" name="Title" onChange={handleChange} onBlur={handleBlur} value={values.title} />
+                                                    {errors.title && touched.title && errors.title}
+                                                </div>
 
-                                <div className="flex flex-row justify-end gap-1 mt-4">
-                                    <button className="p-2">Update</button>
-                                    <button className="p-2" onClick={closeModal}>Cancel</button>
-                                </div>
+                                                <div className="flex flex-col mt-4">
+                                                    <p className="font-medium">Description</p>
+                                                    <textarea className=" p-1 caret-black bg-gray-100 mt-2 max-h-36 min-h-[2rem] rounded-sm" name="Description" onChange={handleChange} onBlur={handleBlur} value={values.description} />
+                                                    {errors.description && touched.description && errors.description}
+                                                </div>
+
+                                            </div>
+
+                                            <div className="flex flex-row justify-end gap-1 mt-4">
+                                                <button className="p-2">Update</button>
+                                                <button className="p-2" onClick={closeModal}>Cancel</button>
+                                            </div>
+                                        </form>
+                                    )}
+
+                                </Formik>
+
                             </Dialog.Panel>
                         </Transition.Child>
                     </div>
