@@ -1,8 +1,10 @@
 "use client";
 import { Task } from "@/types/Task";
 import { Dialog, Transition } from "@headlessui/react";
-import { Field, Formik } from "formik";
+import { ErrorMessage, Field, Formik } from "formik";
 import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function TaskCard({ task }: { task: Task }) {
     let [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -82,6 +84,7 @@ function EditModal({ task, isOpen, closeModal }: { task: Task, isOpen: boolean, 
                                         handleBlur,
                                         handleSubmit,
                                         isSubmitting,
+                                        setFieldValue
                                     }) => (
                                         <form className="flex flex-col min-h-[350px] justify-between" onSubmit={handleSubmit}>
                                             <div className="flex flex-col">
@@ -94,8 +97,20 @@ function EditModal({ task, isOpen, closeModal }: { task: Task, isOpen: boolean, 
 
                                                 <div className="flex flex-col mt-4">
                                                     <p className="font-medium">Description</p>
-                                                    <textarea className=" p-1 caret-black bg-gray-100 mt-2 max-h-36 min-h-[2rem] rounded-sm" name="Description" onChange={handleChange} onBlur={handleBlur} value={values.description} />
+                                                    <textarea className=" p-1 caret-black bg-gray-100 mt-2 max-h-36 min-h-[4rem] rounded-sm" name="Description" onChange={handleChange} onBlur={handleBlur} value={values.description} />
                                                     {errors.description && touched.description && errors.description}
+                                                </div>
+
+                                                <div className="flex flex-col mt-8">
+                                                    <p className="font-medium">Due Date</p>
+                                                    <DatePicker
+                                                        selected={new Date(values.dueDate)}
+                                                        dateFormat="MMMM d, yyyy"
+                                                        className="bg-gray-100 p-1 w-full mt-2"
+                                                        name="Due Date"
+                                                        onChange={date => setFieldValue('dueDate', date)}
+                                                    />
+                                                    <ErrorMessage name="dueDate" />
                                                 </div>
 
                                             </div>
