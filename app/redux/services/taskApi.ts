@@ -1,7 +1,7 @@
 import { Task } from "@/types/Task";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const taskApi = createApi({
+export const TaskAPI = createApi({
     reducerPath: 'taskApi',
     refetchOnFocus: true,
     baseQuery: fetchBaseQuery({
@@ -14,4 +14,4 @@ export const taskApi = createApi({
     }),
 })
 
-export const { useGetTasksQuery } = taskApi;
+export const { useGetTasksQuery } = TaskAPI;

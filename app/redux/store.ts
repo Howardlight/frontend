@@ -3,17 +3,17 @@ import { combineReducers } from "redux";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 import taskReducer from "./TasksSlice";
-import { taskApi } from "./services/taskApi";
+import { TaskAPI } from "./services/taskApi";
 
 const reducers = combineReducers({
     taskReducer,
-    [taskApi.reducerPath]: taskApi.reducer
+    [TaskAPI.reducerPath]: TaskAPI.reducer
 })
 
 export const store = configureStore({
     reducer: reducers,
     devTools: process.env.NODE_ENV !== `production`,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([taskApi.middleware]),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat([TaskAPI.middleware]),
 });
 
 setupListeners(store.dispatch);
