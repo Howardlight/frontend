@@ -1,30 +1,25 @@
+"use client";
+
 import TaskCard from "@/components/Task";
 import { Task as TaskType } from "@/types/Task";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import { useGetTasksQuery } from "./redux/services/taskApi";
 
-async function getTasks() {
-  //TODO: Replace this with local.env
-  const res = await fetch(`${process.env.BACKEND_URL}/api/task`, { method: "GET", cache: "no-cache" });
+export default function Home() {
+  const tasks = useAppSelector((state) => state.taskReducer);
+  const dispatch = useAppDispatch();
 
-  //Triggers closest error.js 
-  //TODO: Create an Error.js for when Tasks could not be loaded
-  if (!res.ok) {
-    throw new Error(`Failed to fetch tasks!`);
-  }
-
-
-  return res.json();
-}
-
-export default async function Home() {
-  const data = await getTasks();
+  const { isLoading, isFetching, data, error } = useGetTasksQuery(null);
 
   //TODO: Convert this to a grid
-
-  console.log(data);
+  //TODO: Add a loading spinner
+  // console.log(tasks);
+  if (isLoading || isFetching) return <p>Loading...</p>;
+  if (error) return <p>An error occured</p>;
   return (
     <main>
       <div className="flex flex-row gap-2 justify-center flex-wrap">
-        <Tasks tasksData={data} />
+        <Tasks tasksData={data!} />
       </div>
     </main>
   )
