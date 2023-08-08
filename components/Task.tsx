@@ -6,6 +6,7 @@ import { Fragment, useState } from "react";
 import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useUpdateTaskMutation } from "@/app/redux/services/taskApi";
 
 const TaskValidationSchema = Yup.object().shape({
     title: Yup.string().min(3, "Title cannot be shorter than 3 characters").required("Title is required"),
@@ -40,7 +41,7 @@ export default function TaskCard({ task }: { task: Task }) {
 }
 
 function EditModal({ task, isOpen, closeModal }: { task: Task, isOpen: boolean, closeModal: () => void }) {
-
+    const [updateTask, { isLoading }] = useUpdateTaskMutation();
     //TODO: Style Buttons, disabled, loading ect...
 
     return (
@@ -78,7 +79,19 @@ function EditModal({ task, isOpen, closeModal }: { task: Task, isOpen: boolean, 
                                     onSubmit={(values, { setSubmitting }) => {
                                         setTimeout(() => {
                                             alert(JSON.stringify(values, null, 2));
+
+                                            const task: Task = {
+                                                __v: values.__v,
+                                                _id: values._id,
+                                                completed: values.completed,
+                                                description: values.description,
+                                                dueDate: values.dueDate,
+                                                title: values.title
+                                            };
+
+                                            updateTask(task);
                                             setSubmitting(false);
+                                            closeModal();
                                         }, 400);
                                     }}
                                 >
