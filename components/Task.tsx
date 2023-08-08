@@ -1,10 +1,18 @@
 "use client";
 import { Task } from "@/types/Task";
 import { Dialog, Transition } from "@headlessui/react";
-import { ErrorMessage, Field, Formik } from "formik";
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import { ErrorMessage, Formik } from "formik";
+import { Fragment, useState } from "react";
+import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+const TaskValidationSchema = Yup.object().shape({
+    title: Yup.string().min(3, "Title cannot be shorter than 3 characters").required("Title is required"),
+    description: Yup.string().min(10, "Description cannot be shorter than 10 characters").required("Description is required"),
+    dueDate: Yup.date()
+})
+
 
 export default function TaskCard({ task }: { task: Task }) {
     let [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -32,6 +40,8 @@ export default function TaskCard({ task }: { task: Task }) {
 }
 
 function EditModal({ task, isOpen, closeModal }: { task: Task, isOpen: boolean, closeModal: () => void }) {
+
+    //TODO: Style Buttons, disabled, loading ect...
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
@@ -62,13 +72,9 @@ function EditModal({ task, isOpen, closeModal }: { task: Task, isOpen: boolean, 
                                 <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">Modify {task.title}</Dialog.Title>
 
 
-
                                 <Formik
                                     initialValues={task}
-                                    validate={values => {
-                                        const errors = {};
-                                        //TODO: Implement validation
-                                    }}
+                                    validationSchema={TaskValidationSchema}
                                     onSubmit={(values, { setSubmitting }) => {
                                         setTimeout(() => {
                                             alert(JSON.stringify(values, null, 2));
@@ -84,20 +90,21 @@ function EditModal({ task, isOpen, closeModal }: { task: Task, isOpen: boolean, 
                                         handleBlur,
                                         handleSubmit,
                                         isSubmitting,
-                                        setFieldValue
+                                        setFieldValue,
+                                        isValid
                                     }) => (
                                         <form className="flex flex-col min-h-[350px] justify-between" onSubmit={handleSubmit}>
                                             <div className="flex flex-col">
 
                                                 <div className="flex flex-col mt-4">
                                                     <p className="font-medium">Title</p>
-                                                    <input className="p-1 bg-gray-100 mt-2 rounded-sm" type="text" name="Title" onChange={handleChange} onBlur={handleBlur} value={values.title} />
-                                                    {errors.title && touched.title && errors.title}
+                                                    <input className="p-1 bg-gray-100 mt-2 rounded-sm" type="text" name="title" onChange={handleChange} onBlur={handleBlur} value={values.title} />
+                                                    <ErrorMessage name="title" />
                                                 </div>
 
                                                 <div className="flex flex-col mt-4">
                                                     <p className="font-medium">Description</p>
-                                                    <textarea className=" p-1 caret-black bg-gray-100 mt-2 max-h-36 min-h-[4rem] rounded-sm" name="Description" onChange={handleChange} onBlur={handleBlur} value={values.description} />
+                                                    <textarea className=" p-1 caret-black bg-gray-100 mt-2 max-h-36 min-h-[4rem] rounded-sm" name="description" onChange={handleChange} onBlur={handleBlur} value={values.description} />
                                                     {errors.description && touched.description && errors.description}
                                                 </div>
 
@@ -107,7 +114,7 @@ function EditModal({ task, isOpen, closeModal }: { task: Task, isOpen: boolean, 
                                                         selected={new Date(values.dueDate)}
                                                         dateFormat="MMMM d, yyyy"
                                                         className="bg-gray-100 p-1 w-full mt-2"
-                                                        name="Due Date"
+                                                        name="dueDate"
                                                         onChange={date => setFieldValue('dueDate', date)}
                                                     />
                                                     <ErrorMessage name="dueDate" />
@@ -116,7 +123,7 @@ function EditModal({ task, isOpen, closeModal }: { task: Task, isOpen: boolean, 
                                             </div>
 
                                             <div className="flex flex-row justify-end gap-1 mt-4">
-                                                <button className="p-2">Update</button>
+                                                <button disabled={!isValid} className="p-2">Update</button>
                                                 <button className="p-2" onClick={closeModal}>Cancel</button>
                                             </div>
                                         </form>
