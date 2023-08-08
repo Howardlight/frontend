@@ -5,8 +5,12 @@ import { Dispatch, Fragment, SetStateAction, useState } from "react";
 
 export default function TaskCard({ task }: { task: Task }) {
     let [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
     function openModal() {
         setIsEditModalOpen(true);
+    }
+    function closeModal() {
+        setIsEditModalOpen(false);
     }
 
 
@@ -19,16 +23,12 @@ export default function TaskCard({ task }: { task: Task }) {
                 </div>
                 <p>{task.description}</p>
             </div>
-            <EditModal isOpen={isEditModalOpen} setIsOpen={setIsEditModalOpen} task={task} />
+            <EditModal isOpen={isEditModalOpen} closeModal={closeModal} task={task} />
         </Fragment>
     )
 }
 
-function EditModal({ task, isOpen, setIsOpen }: { task: Task, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
-
-    function closeModal() {
-        setIsOpen(false);
-    }
+function EditModal({ task, isOpen, closeModal }: { task: Task, isOpen: boolean, closeModal: () => void }) {
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
