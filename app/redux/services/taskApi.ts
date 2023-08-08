@@ -11,7 +11,14 @@ export const TaskAPI = createApi({
         getTasks: builder.query<Task[], null>({
             query: () => `task`
         }),
+        updateTask: builder.mutation<Task, Task>({
+            query: (task) => ({
+                url: `task/edit/${task._id}`,
+                method: "PUT",
+                body: { ...task },
+            }),
+        }),
     }),
 })
 
-export const { useGetTasksQuery } = TaskAPI;
+export const { useGetTasksQuery, useUpdateTaskMutation } = TaskAPI;
