@@ -1,7 +1,6 @@
-import Image from 'next/image'
-
 async function getTasks() {
-  const res = await fetch(`http://localhost:5000/api/task`, { method: "GET" });
+  //TODO: Replace this with local.env
+  const res = await fetch(`${process.env.BACKEND_URL}/api/task`, { method: "GET" });
 
   //Triggers closest error.js 
   //TODO: Create an Error.js for when Tasks could not be loaded
