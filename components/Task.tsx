@@ -1,27 +1,77 @@
 "use client";
 import { Task } from "@/types/Task";
+import { Dialog, Transition } from "@headlessui/react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 
 export default function TaskCard({ task }: { task: Task }) {
-
+    let [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    function openModal() {
+        setIsEditModalOpen(true);
+    }
 
 
     return (
-        <div className="w-80 bg-gray-500 p-3 rounded-md">
-            <div className="flex flex-row justify-between mb-5">
-                <p className="font-semibold">{task.title}</p>
-                <button>Edit</button>
+        <Fragment>
+            <div className="w-80 bg-gray-200 shadow-sm p-3 rounded-md">
+                <div className="flex flex-row justify-between mb-5">
+                    <p className="font-semibold">{task.title}</p>
+                    <button onClick={openModal}>Edit</button>
+                </div>
+                <p>{task.description}</p>
             </div>
-            <p>{task.description}</p>
-        </div>
+            <EditModal isOpen={isEditModalOpen} setIsOpen={setIsEditModalOpen} task={task} />
+        </Fragment>
     )
 }
 
-function getDay(inDate: Date) {
-    try {
-        const date = new Date(inDate);
-        return date.toDateString();
+function EditModal({ task, isOpen, setIsOpen }: { task: Task, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
 
-    } catch (error) {
-        return "Unknown Date";
+    function closeModal() {
+        setIsOpen(false);
     }
+
+    return (
+        <Transition appear show={isOpen} as={Fragment}>
+            <Dialog as="div" className={"relative z-10"} open={isOpen} onClose={closeModal}>
+                <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                >
+                    <div className="fixed inset-0 bg-black bg-opacity-25" />
+                </Transition.Child>
+                <div className="fixed inset-0 overflow-y-auto">
+                    <div className="flex min-h-full items-center justify-center p-4 text-center">
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 scale-95"
+                            enterTo="opacity-100 scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 scale-100"
+                            leaveTo="opacity-0 scale-95"
+                        >
+                            <Dialog.Panel className="min-w-[500px] max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">Modify {task.title}</Dialog.Title>
+
+
+
+                                <p className="h-[500px]">Form here</p>
+
+
+                                <div className="flex flex-row justify-end gap-1 mt-4">
+                                    <button className="p-2">Update</button>
+                                    <button className="p-2" onClick={closeModal}>Cancel</button>
+                                </div>
+                            </Dialog.Panel>
+                        </Transition.Child>
+                    </div>
+                </div>
+            </Dialog>
+        </Transition>
+    )
 }
