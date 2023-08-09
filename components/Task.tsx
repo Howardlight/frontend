@@ -23,7 +23,7 @@ export default function TaskCard({ task }: { task: Task }) {
 
     return (
         <Fragment>
-            <div className="flex flex-col justify-between w-80 bg-gray-100 shadow-sm p-3 rounded-md">
+            <div className="flex flex-col justify-between w-80 h-auto bg-gray-100 shadow-sm p-3 rounded-md">
                 <div>
 
                     <div className="mb-5">
@@ -40,7 +40,7 @@ export default function TaskCard({ task }: { task: Task }) {
 
                     </div>
 
-                    <p>{task.description}</p>
+                    <p className="inline-block break-words max-w-[296px]">{task.description}</p>
 
                 </div>
 
