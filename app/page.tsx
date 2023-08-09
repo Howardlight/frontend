@@ -34,12 +34,32 @@ export default function Home() {
   )
 }
 
-
 function Loading() {
   return (
-    <div className="h-[508px] w-auto flex justify-center items-center">
-      <IconLoader2 className="animate-spin w-48 h-48" />
+    <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+      {Array(9).fill(true).map((item, index) => <TaskLoading key={index} />)}
     </div>
+  )
+}
+
+function TaskLoading() {
+  return (
+    <div className="w-80 h-36 bg-gray-100 rounded-md flex flex-col justify-between shadow-sm p-3">
+      <div className="flex flex-col gap-1 mb-5">
+        <div className="flex flex-row justify-between">
+          <div className="animate-pulse h-6 w-24 bg-gray-200 rounded-sm" />
+          <div className="animate-pulse h-6 w-6 rounded-sm bg-gray-200" />
+        </div>
+
+        <div className="animate-pulse h-4 w-28 bg-gray-200 rounded-sm" />
+      </div>
+
+
+      <div className="flex flex-row justify-between">
+        <div className="animate-pulse w-6 h-6 bg-gray-200" />
+        <div className="animate-pulse w-6 h-6 bg-gray-200" />
+      </div>
+    </div >
   )
 }
 
