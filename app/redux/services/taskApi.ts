@@ -1,4 +1,4 @@
-import { Task } from "@/types/Task";
+import { CreateTask, Task } from "@/types/Task";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const TaskAPI = createApi({
@@ -21,7 +21,7 @@ export const TaskAPI = createApi({
             }),
             invalidatesTags: ["Task"]
         }),
-        createTask: builder.mutation<Task, Task>({
+        createTask: builder.mutation<Task, CreateTask>({
             query: (task) => ({
                 url: `task/`,
                 method: "POST",
@@ -32,4 +32,4 @@ export const TaskAPI = createApi({
     }),
 })
 
-export const { useGetTasksQuery, useUpdateTaskMutation } = TaskAPI;
+export const { useGetTasksQuery, useUpdateTaskMutation, useCreateTaskMutation } = TaskAPI;
