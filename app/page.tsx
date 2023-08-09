@@ -6,20 +6,26 @@ import { useGetTasksQuery } from "../redux/services/taskApi";
 import CreateModal from "@/components/modals/CreateModal";
 import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import { PageController } from "./PageController";
+import { Filter } from "@/types/Filter";
+import { FilterMenu } from "../components/FilterMenu";
 
 export default function Home() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [page, setPage] = useState(0);
-  const { isLoading, isFetching, data, error } = useGetTasksQuery(page * 9);
+  const [filter, setFilter] = useState<Filter>({ completed: undefined, date: undefined })
+  const { isLoading, isFetching, data, error } = useGetTasksQuery({ offset: page * 9, filter: filter });
 
   return (
     <main className="m-5 h-full">
 
       <div className="flex flex-row justify-between items-center p-2 mb-5 bg-gray-100 rounded-sm">
         <p className="text-lg font-bold">Task Manager</p>
-        <button onClick={() => setIsCreateModalOpen(true)} className="transition p-1 rounded-sm bg-gray-200 hover:bg-gray-300 shadow-sm">Create</button>
+        <div className="flex flex-row items-center gap-2">
+          <FilterMenu setFilter={setFilter} setPage={setPage} />
+          <button onClick={() => setIsCreateModalOpen(true)} className="transition p-2 rounded-sm bg-gray-200 hover:bg-gray-300 shadow-sm">Create</button>
+        </div>
       </div>
 
       <Tasks isFetching={isFetching} isLoading={isLoading} error={error} tasksData={data?.data!} />
