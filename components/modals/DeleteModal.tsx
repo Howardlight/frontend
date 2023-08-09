@@ -1,6 +1,6 @@
 import { Transition, Dialog } from "@headlessui/react";
 import { Dispatch, SetStateAction, Fragment } from "react";
-import { useDeleteTaskMutation } from "@/app/redux/services/taskApi";
+import { useDeleteTaskMutation } from "@/redux/services/taskApi";
 import { Task } from "@/types/Task";
 
 export default function DeleteModal({ task, isOpen, setIsOpen }: { task: Task, isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
