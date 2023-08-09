@@ -1,16 +1,11 @@
-import { Transition, Dialog } from "@headlessui/react";
-import { Dispatch, SetStateAction, Fragment } from "react";
-import CreateForm from "./forms/CreateForm";
+"use client";
+import { Task } from "@/types/Task";
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
+import EditForm from "../forms/EditForm";
 
-export default function CreateModal({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
-
-    function openModal() {
-        setIsOpen(true);
-    }
-    function closeModal() {
-        setIsOpen(false);
-    }
-
+export function EditModal({ task, isOpen, closeModal }: { task: Task; isOpen: boolean; closeModal: () => void; }) {
+    //TODO: Style Buttons, disabled, loading ect...
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
@@ -38,9 +33,9 @@ export default function CreateModal({ isOpen, setIsOpen }: { isOpen: boolean, se
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel className="min-w-[500px] max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">Create a New Task</Dialog.Title>
+                                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">Modify {task.title}</Dialog.Title>
 
-                                <CreateForm closeModal={closeModal} />
+                                <EditForm closeModal={closeModal} task={task} />
 
                             </Dialog.Panel>
                         </Transition.Child>
@@ -48,5 +43,5 @@ export default function CreateModal({ isOpen, setIsOpen }: { isOpen: boolean, se
                 </div>
             </Dialog>
         </Transition>
-    )
+    );
 }

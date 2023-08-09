@@ -4,7 +4,7 @@ import TaskCard from "@/components/Task";
 import { Task as TaskType } from "@/types/Task";
 import { useGetTasksQuery } from "./redux/services/taskApi";
 import { useState } from "react";
-import CreateModal from "@/components/CreateModal";
+import CreateModal from "@/components/modals/CreateModal";
 
 export default function Home() {
   let [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
