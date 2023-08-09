@@ -36,7 +36,7 @@ export default function Home() {
 
 function Loading() {
   return (
-    <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+    <div className="grid justify-items-center sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
       {Array(9).fill(true).map((item, index) => <TaskLoading key={index} />)}
     </div>
   )
@@ -68,7 +68,7 @@ function Tasks({ tasksData, isLoading, isFetching, error }: { tasksData: TaskTyp
   if (isLoading || isFetching) return <Loading />;
   if (error) return <p>An error occured</p>;
   return (
-    <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+    <div className="grid justify-items-center sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
       {tasksData.map(task => <TaskCard key={task._id} task={task} />)}
     </div>
   );
