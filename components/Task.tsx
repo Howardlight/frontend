@@ -19,17 +19,27 @@ export default function TaskCard({ task }: { task: Task }) {
         setIsEditModalOpen(false);
     }
 
+    const taskDate = new Date(task.dueDate);
 
     return (
         <Fragment>
             <div className="flex flex-col justify-between w-80 bg-gray-100 shadow-sm p-3 rounded-md">
                 <div>
 
-                    <div className="flex flex-row justify-between mb-5">
-                        <p className="font-semibold">{task.title}</p>
+                    <div className="mb-5">
 
-                        <button onClick={openModal}><IconEdit /></button>
+                        <div className="flex flex-row justify-between">
+                            <p className="font-semibold">{task.title}</p>
+
+                            <button onClick={openModal}><IconEdit /></button>
+                        </div>
+                        <div className="inline">
+                            <p className="inline text-sm font-light">Due </p>
+                            <p className="inline text-sm font-medium">{taskDate.toLocaleDateString()}</p>
+                        </div>
+
                     </div>
+
                     <p>{task.description}</p>
 
                 </div>
