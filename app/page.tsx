@@ -8,8 +8,6 @@ import CreateModal from "@/components/modals/CreateModal";
 
 export default function Home() {
   let [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
-
   const { isLoading, isFetching, data, error } = useGetTasksQuery(null);
 
 
@@ -24,8 +22,7 @@ export default function Home() {
         <p className="text-lg font-bold">Task Manager</p>
         <button onClick={() => setIsCreateModalOpen(true)} className="transition p-1 rounded-sm bg-gray-200 outline-1 outline-gray-400 outline-double hover:bg-gray-300 shadow-sm">Create</button>
       </div>
-      {/* <div className="flex flex-row gap-2 justify-center flex-wrap"> */}
-      <div className="grid grid-cols-5 gap-5">
+      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
         <Tasks tasksData={data!} />
       </div>
       <CreateModal isOpen={isCreateModalOpen} setIsOpen={setIsCreateModalOpen} />
