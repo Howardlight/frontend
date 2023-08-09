@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={[inter.className, "h-[100vh] w-auto"].join(" ")}>
+      <body className={[inter.className, "h-[95vh] w-auto"].join(" ")}>
         <Providers>
           {children}
         </Providers>
