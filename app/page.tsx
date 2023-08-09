@@ -20,7 +20,7 @@ export default function Home() {
     <main className="m-5 h-full">
       <div className="flex flex-row justify-between items-center p-2 mb-5 bg-gray-100 rounded-sm">
         <p className="text-lg font-bold">Task Manager</p>
-        <button onClick={() => setIsCreateModalOpen(true)} className="transition p-1 rounded-sm bg-gray-200 outline-1 outline-gray-400 outline-double hover:bg-gray-300 shadow-sm">Create</button>
+        <button onClick={() => setIsCreateModalOpen(true)} className="transition p-1 rounded-sm bg-gray-200 hover:bg-gray-300 shadow-sm">Create</button>
       </div>
       <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
         <Tasks tasksData={data!} />
