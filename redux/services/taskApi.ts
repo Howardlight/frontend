@@ -1,3 +1,4 @@
+import { Filter } from "@/types/Filter";
 import { CreateTask, Task } from "@/types/Task";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -18,8 +19,13 @@ export const TaskAPI = createApi({
         baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL + "/api/"
     }),
     endpoints: (builder) => ({
-        getTasks: builder.query<findAllTasks, number>({
-            query: (page) => `task?offset=${page}&limit=9`,
+        getTasks: builder.query<findAllTasks, { offset: number, filter: Filter }>({
+            query: (payload) => {
+                if (payload.filter.completed && payload.filter.date) return `task?offset=${payload.offset}&limit=9&completed=${payload.filter.completed}&date=${payload.filter.date}`;
+                else if (payload.filter.completed && !payload.filter.date) return `task?offset=${payload.offset}&limit=9&completed=${payload.filter.completed}`;
+                else if (!payload.filter.completed && payload.filter.date) return `task?offset=${payload.offset}&limit=9&date=${payload.filter.date}`;
+                else return `task?offset=${payload.offset}&limit=9`;
+            },
             providesTags: ["Task"]
         }),
         updateTask: builder.mutation<Task, Task>({
