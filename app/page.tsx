@@ -7,7 +7,8 @@ import { IconLoader2 } from "@tabler/icons-react";
 import CreateModal from "@/components/modals/CreateModal";
 import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
-import { useState, SetStateAction, Dispatch, Fragment } from "react";
+import { useState, Fragment } from "react";
+import { PageController } from "./PageController";
 
 export default function Home() {
   let [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -38,37 +39,6 @@ function Loading() {
   return (
     <div className="h-[508px] w-auto flex justify-center items-center">
       <IconLoader2 className="animate-spin w-48 h-48" />
-    </div>
-  )
-}
-
-
-function PageController({ setPage, page, totalPages }: { setPage: Dispatch<SetStateAction<number>>, page: number, totalPages: number | undefined }) {
-
-  function incrementPage() {
-    setPage(page + 1);
-  }
-
-  function decrementPage() {
-    setPage(page - 1);
-  }
-
-  if (!totalPages) return <LoadingPageController />
-  return (
-    <div className="flex flex-row justify-center items-center gap-3 mt-5 h-12 bg-gray-100 rounded-sm">
-      <button disabled={page <= 0} onClick={decrementPage} className="p-2 font-medium bg-gray-200 rounded-sm hover:bg-gray-300">Previous</button>
-      <p className="font-semibold text-lg pl-2 pr-2 pt-1 pb-1 bg-gray-200 rounded-sm">{page + 1}</p>
-      <button disabled={page + 1 >= totalPages} onClick={incrementPage} className="p-2 font-medium bg-gray-200 rounded-sm hover:bg-gray-300">Next</button>
-    </div>
-  )
-}
-
-function LoadingPageController() {
-  return (
-    <div className="flex flex-row justify-center items-center gap-3 mt-5 h-12 bg-gray-100 rounded-sm">
-      <div className="animate-pulse h-10 w-20 bg-gray-200 rounded-sm" />
-      <div className="animate-pulse h-10 w-8  bg-gray-200 rounded-sm" />
-      <div className="animate-pulse h-10 w-20 bg-gray-200 rounded-sm" />
     </div>
   )
 }
