@@ -2,7 +2,7 @@
 import { Task } from "@/types/Task";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import EditForm from "./EditForm";
+import EditForm from "./forms/EditForm";
 
 export default function TaskCard({ task }: { task: Task }) {
     let [isEditModalOpen, setIsEditModalOpen] = useState(false);

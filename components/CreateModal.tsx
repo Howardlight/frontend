@@ -1,6 +1,6 @@
 import { Transition, Dialog } from "@headlessui/react";
 import { Dispatch, SetStateAction, Fragment } from "react";
-import CreateForm from "./CreateForm";
+import CreateForm from "./forms/CreateForm";
 
 export default function CreateModal({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
 
