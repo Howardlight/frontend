@@ -1,10 +1,7 @@
 "use client";
 import { Task } from "@/types/Task";
 import { Dialog, Transition } from "@headlessui/react";
-import { ErrorMessage, Formik } from "formik";
 import { Fragment, useState } from "react";
-import * as Yup from "yup";
-import { useUpdateTaskMutation } from "@/app/redux/services/taskApi";
 import EditForm from "./EditForm";
 
 export default function TaskCard({ task }: { task: Task }) {
@@ -20,7 +17,7 @@ export default function TaskCard({ task }: { task: Task }) {
 
     return (
         <Fragment>
-            <div className="w-80 bg-gray-200 shadow-sm p-3 rounded-md">
+            <div className="w-80 bg-gray-100 shadow-sm p-3 rounded-md">
                 <div className="flex flex-row justify-between mb-5">
                     <p className="font-semibold">{task.title}</p>
                     <button onClick={openModal}>Edit</button>
