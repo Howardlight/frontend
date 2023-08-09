@@ -35,8 +35,16 @@ export const TaskAPI = createApi({
                 method: "DELETE",
             }),
             invalidatesTags: ["Task"]
+        }),
+        markComplete: builder.mutation<Task, { complete: boolean, id: string }>({
+            query: (payload) => ({
+                url: `task/complete/${payload.id}`,
+                method: "PUT",
+                body: { isComplete: payload.complete }
+            }),
+            invalidatesTags: ["Task"]
         })
     }),
 })
 
-export const { useGetTasksQuery, useUpdateTaskMutation, useCreateTaskMutation, useDeleteTaskMutation } = TaskAPI;
+export const { useGetTasksQuery, useUpdateTaskMutation, useCreateTaskMutation, useDeleteTaskMutation, useMarkCompleteMutation } = TaskAPI;
