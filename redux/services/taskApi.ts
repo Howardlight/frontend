@@ -1,6 +1,15 @@
 import { CreateTask, Task } from "@/types/Task";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+interface findAllTasks {
+    data: Task[],
+    paging: {
+        total: number,
+        page: number,
+        pages: number
+    }
+}
+
 export const TaskAPI = createApi({
     reducerPath: 'taskApi',
     // refetchOnFocus: true,
@@ -9,8 +18,8 @@ export const TaskAPI = createApi({
         baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL + "/api/"
     }),
     endpoints: (builder) => ({
-        getTasks: builder.query<Task[], null>({
-            query: () => `task`,
+        getTasks: builder.query<findAllTasks, number>({
+            query: (page) => `task?page=${page}&limit=9`,
             providesTags: ["Task"]
         }),
         updateTask: builder.mutation<Task, Task>({
