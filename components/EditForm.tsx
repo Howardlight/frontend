@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const TaskValidationSchema = Yup.object().shape({
+export const TaskValidationSchema = Yup.object().shape({
     title: Yup.string().min(3, "Title cannot be shorter than 3 characters").required("Title is required"),
     description: Yup.string().min(10, "Description cannot be shorter than 10 characters").required("Description is required"),
     dueDate: Yup.date()
