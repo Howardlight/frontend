@@ -10,7 +10,7 @@ import { useState, Fragment } from "react";
 import { PageController } from "./PageController";
 
 export default function Home() {
-  let [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [page, setPage] = useState(0);
   const { isLoading, isFetching, data, error } = useGetTasksQuery(page * 9);
 
