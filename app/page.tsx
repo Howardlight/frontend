@@ -3,20 +3,19 @@
 import TaskCard from "@/components/Task";
 import { Task as TaskType } from "@/types/Task";
 import { useGetTasksQuery } from "../redux/services/taskApi";
-import { useState } from "react";
 import { IconLoader2 } from "@tabler/icons-react";
 import CreateModal from "@/components/modals/CreateModal";
 import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { useState, SetStateAction, Dispatch } from "react";
 
 export default function Home() {
   let [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [page, setPage] = useState(1);
-  const { isLoading, isFetching, data, error } = useGetTasksQuery(page);
+  const [page, setPage] = useState(0);
+  const { isLoading, isFetching, data, error } = useGetTasksQuery(page * 9);
 
   //TODO: Convert this to a grid
   //TODO: Add a loading spinner
-  // console.log(tasks);
   return (
     <main className="m-5 h-full">
 
@@ -27,8 +26,9 @@ export default function Home() {
 
       <Tasks isFetching={isFetching} isLoading={isLoading} error={error} tasksData={data?.data!} />
 
-      <CreateModal isOpen={isCreateModalOpen} setIsOpen={setIsCreateModalOpen} />
 
+      <PageController page={page} setPage={setPage} totalPages={data?.paging.pages} />
+      <CreateModal isOpen={isCreateModalOpen} setIsOpen={setIsCreateModalOpen} />
     </main >
   )
 }
@@ -36,14 +36,35 @@ export default function Home() {
 
 function Loading() {
   return (
-    <div className="h-screen w-auto flex justify-center items-center">
+    <div className="h-[508px] w-auto flex justify-center items-center">
       <IconLoader2 className="animate-spin w-48 h-48" />
     </div>
   )
 }
 
 
+function PageController({ setPage, page, totalPages }: { setPage: Dispatch<SetStateAction<number>>, page: number, totalPages: number | undefined }) {
+
+  function incrementPage() {
+    setPage(page + 1);
+  }
+
+  function decrementPage() {
+    setPage(page - 1);
+  }
+
+  if (!totalPages) return <p>Loading...</p>;
+  return (
+    <div className="flex flex-row justify-center gap-3 mt-5 h-12 bg-gray-100 rounded-sm">
+      <button disabled={page <= 0} onClick={decrementPage} className="pl-2 pr-2 mt-1 mb-1 font-medium bg-gray-200 rounded-sm hover:bg-gray-300">Previous</button>
+      <p className="font-semibold text-lg pt-1 pl-3 pr-3 m-1 bg-gray-200 rounded-sm">{page + 1}</p>
+      <button disabled={page + 1 >= totalPages} onClick={incrementPage} className="pl-2 pr-2 mt-1 mb-1 font-medium bg-gray-200 rounded-sm hover:bg-gray-300">Next</button>
+    </div>
+  )
+}
+
 function Tasks({ tasksData, isLoading, isFetching, error }: { tasksData: TaskType[], isLoading: boolean, isFetching: boolean, error: FetchBaseQueryError | SerializedError | undefined }) {
+
   if (isLoading || isFetching) return <Loading />;
   if (error) return <p>An error occured</p>;
   return (

@@ -19,7 +19,7 @@ export const TaskAPI = createApi({
     }),
     endpoints: (builder) => ({
         getTasks: builder.query<findAllTasks, number>({
-            query: (page) => `task?page=${page}&limit=9`,
+            query: (page) => `task?offset=${page}&limit=9`,
             providesTags: ["Task"]
         }),
         updateTask: builder.mutation<Task, Task>({
