@@ -3,7 +3,6 @@
 import TaskCard from "@/components/Task";
 import { Task as TaskType } from "@/types/Task";
 import { useGetTasksQuery } from "../redux/services/taskApi";
-import { IconLoader2 } from "@tabler/icons-react";
 import CreateModal from "@/components/modals/CreateModal";
 import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
@@ -15,8 +14,6 @@ export default function Home() {
   const [page, setPage] = useState(0);
   const { isLoading, isFetching, data, error } = useGetTasksQuery(page * 9);
 
-  //TODO: Convert this to a grid
-  //TODO: Add a loading spinner
   return (
     <main className="m-5 h-full">
 
